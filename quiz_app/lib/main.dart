@@ -1,33 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/answer.dart';
 
-import 'fancy_button.dart';
 import 'question.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
-
-@override
+  @override
   State<StatefulWidget> createState() {
     return _MyAppState();
   }
 }
 
-class _MyAppState extends State<MyApp>{
-
+class _MyAppState extends State<MyApp> {
   int _index = 0;
-  
-  var questions = <String> [
-    "What's your favorite book?",
-    "what's your favorite animal?"
+
+  var questions = [
+    {
+      'questionText': "What's your favorite book?",
+      'answers': ['Book 1', 'Book 2', 'Book 3', 'Book 4']
+    },
+    {
+      'questionText': "What's your favorite animal?",
+      'answers': ['Lion', 'Rabbit', 'Snake', 'Elephant']
+    },
+    {
+      'questionText': "What's your favorite color?",
+      'answers': ['Black', 'Blue', 'Green', 'White']
+    },
+    {
+      'questionText': "Who's your favorite instructor?",
+      'answers': ['Max', 'Max', 'Max', 'Max']
+    },
   ];
 
   void _answerQuestion() {
     setState(() {
-     _index +=1; 
+      _index += 1;
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,26 +50,17 @@ class _MyAppState extends State<MyApp>{
         body: Column(
           children: <Widget>[
             QuestionWidget(
-              questionText: questions[_index],
-              ),
-            FancyButton(
-              text: 'Answer 1',
-              onPressed: _answerQuestion,
+              questionText: questions[_index]['questionText'],
             ),
-            FancyButton(
-              text: 'Answer 2',
-              onPressed: _answerQuestion,
-            ),
-            FancyButton(
-              text: 'Answer 3',
-              onPressed: _answerQuestion,
-            ),
+            ...(questions[_index]['answers'] as List<String>).map((answer) {
+              return Answer(
+                text: answer,
+                onPressed: _answerQuestion,
+              );
+            }).toList()
           ],
         ),
       ),
     );
   }
 }
-
-
-
