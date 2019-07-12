@@ -1,3 +1,4 @@
+import 'package:expences/transaction.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -24,6 +25,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> transactions = [
+    Transaction(
+        id: "t1", title: "New Shoes", amount: 69.99, date: DateTime.now()),
+    Transaction(
+        id: "t2", title: "New Tshirt", amount: 19.99, date: DateTime.now())
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +48,23 @@ class _MyHomePageState extends State<MyHomePage> {
               elevation: 5,
             ),
           ),
-          Card(child: Text('LIST of TXX'))
+          Column(
+            children: transactions.map((transaction) {
+              return Card(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      child: Text(transaction.amount.toString()),
+                    ),
+                    Column( children: <Widget>[
+                      Text(transaction.title),
+                      Text(transaction.date.toString()),
+                    ],)
+                  ],
+                ),
+              );
+            }).toList(),
+          )
         ],
       ),
     );
