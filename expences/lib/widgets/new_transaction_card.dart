@@ -1,12 +1,36 @@
 import 'package:expences/models/transaction.dart';
 import 'package:flutter/material.dart';
 
-class NewTransactionCard extends StatelessWidget {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+class NewTransactionCard extends StatefulWidget {
   final Function onCreateNewTransaction;
 
   NewTransactionCard({Key key, this.onCreateNewTransaction}) : super(key: key);
+
+  @override
+  _NewTransactionCardState createState() => _NewTransactionCardState();
+}
+
+class _NewTransactionCardState extends State<NewTransactionCard> {
+  final titleController = TextEditingController();
+
+  final amountController = TextEditingController();
+
+  void submitData() {
+    final enteredtitle = titleController.text;
+    final enteredAmount = double.parse(amountController.text);
+
+    if (enteredtitle.isEmpty || enteredAmount <= 0) {
+      return;
+    } else {
+      widget.onCreateNewTransaction(Transaction(
+          id: DateTime.now().toString(),
+          title: enteredtitle,
+          amount: enteredAmount,
+          date: DateTime.now()));
+    }
+
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +48,16 @@ class NewTransactionCard extends StatelessWidget {
               ),
               TextField(
                 decoration: InputDecoration(labelText: 'Amount'),
+                keyboardType: TextInputType.number,
                 controller: amountController,
+                onSubmitted: (_) => submitData(),
               ),
               Container(
                 margin: EdgeInsets.only(top: 20),
                 child: FlatButton(
                   child: Text('Add Transaction'),
                   textColor: Colors.purple,
-                  onPressed: () {
-                    onCreateNewTransaction(Transaction(
-                        id: DateTime.now().toString(),
-                        title: titleController.text,
-                        amount: double.parse(amountController.text),
-                        date: DateTime.now()));
-                  },
+                  onPressed: submitData,
                 ),
               )
             ],
