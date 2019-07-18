@@ -37,7 +37,7 @@ class TransactionCard extends StatelessWidget {
                     margin: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.purpleAccent,
+                        color: Theme.of(context).primaryColor,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(6)),
@@ -48,7 +48,7 @@ class TransactionCard extends StatelessWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
-                          color: Colors.deepPurple[200]),
+                          color: Theme.of(context).textTheme.title.color),
                     ),
                   ),
                   Column(
@@ -57,10 +57,7 @@ class TransactionCard extends StatelessWidget {
                       Text(
                         transaction.title,
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                        ),
+                        style: Theme.of(context).textTheme.title,
                       ),
                       Text(
                         DateFormat.yMMMMd().format(transaction.date),

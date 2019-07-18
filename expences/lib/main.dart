@@ -10,11 +10,28 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Expences',
+      title: 'Personal Expences',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.amber,
+        fontFamily: 'AppleGaramond',
+        textTheme: ThemeData.light().textTheme.copyWith(
+                title: TextStyle(
+                  fontFamily: 'Timeless',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ) ,
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                title: TextStyle(
+                  fontFamily: 'Timeless',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+        ),
       ),
-      home: MyHomePage(title: 'Expences Home Page'),
+      home: MyHomePage(title: 'Personal Expences Home Page'),
     );
   }
 }
@@ -58,7 +75,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
