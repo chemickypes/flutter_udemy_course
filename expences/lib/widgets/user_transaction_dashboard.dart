@@ -6,9 +6,10 @@ import '../models/transaction.dart';
 
 class TransactionsDashboard extends StatelessWidget {
   final List<Transaction> transactions;
-  TransactionsDashboard({Key key, @required this.transactions}) : super(key: key);
+  TransactionsDashboard({Key key, @required this.transactions})
+      : super(key: key);
 
- @override
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
@@ -22,15 +23,29 @@ class TransactionsDashboard extends StatelessWidget {
                 elevation: 5,
               ),
             ),
-            
-            TransactionList(
-              transactionsList: transactions,
-            ),
+            transactions.isEmpty
+                ? Column(
+                    children: <Widget>[
+                      Text(
+                        "No Transactions here",
+                        style: Theme.of(context).textTheme.title,
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        width: 300,
+                        child: Image.asset(
+                          'assets/images/empty_folder.png',
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    ],
+                  )
+                : TransactionList(
+                    transactionsList: transactions,
+                  ),
           ],
         ),
       ),
     );
   }
-  
 }
-
