@@ -14,7 +14,9 @@ class TransactionList extends StatelessWidget {
     return Container(
       child: Column(
         children: transactionsList.map((transaction) {
-          return TransactionCard(transaction: transaction,);
+          return TransactionCard(
+            transaction: transaction,
+          );
         }).toList(),
       ),
     );
@@ -28,10 +30,34 @@ class TransactionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child:Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
+      child: Card(
+        elevation: 5,
+        margin: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+        child: ListTile(
+            leading: CircleAvatar(
+              radius: 30,
+              child: Padding(
+                padding: EdgeInsets.all(6),
+                child: FittedBox(
+                  child: Text(
+                    "\$${transaction.amount.toStringAsFixed(2)}",
+                  ),
+                ),
+              ),
+            ),
+            title: Text(
+              transaction.title,
+              style: Theme.of(context).textTheme.title,
+            ),
+            subtitle: Text(DateFormat.yMMMMd().format(transaction.date)),
+          ),
+      ),
+    );
+  }
+}
+
+/*
+child: Row(
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
@@ -70,8 +96,4 @@ class TransactionCard extends StatelessWidget {
                   )
                 ],
               ),
-            ),
-          ),
-    );
-  }
-}
+*/
