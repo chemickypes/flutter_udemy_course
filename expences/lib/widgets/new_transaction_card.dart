@@ -53,10 +53,27 @@ class _NewTransactionCardState extends State<NewTransactionCard> {
                 onSubmitted: (_) => submitData(),
               ),
               Container(
+                height: 70,
+                child: Row(
+                  children: <Widget>[
+                    Text("No Date Chosern!"),
+                    FlatButton(
+                        textColor: Theme.of(context).primaryColor,
+                        child: Text(
+                          "Choose Date",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () {},
+                      )
+                  ],
+                ),
+              ),
+              Container(
                 margin: EdgeInsets.only(top: 20),
-                child: FlatButton(
+                child: RaisedButton(
+                  textColor: Theme.of(context).textTheme.button.color,
+                  color: Theme.of(context).primaryColor,
                   child: Text('Add Transaction'),
-                  textColor: Colors.purple,
                   onPressed: submitData,
                 ),
               )
