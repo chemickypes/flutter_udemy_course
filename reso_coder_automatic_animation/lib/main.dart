@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:reso_coder_automatic_animation/second_animation.dart';
+import 'package:reso_coder_automatic_animation/third_animation.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 import 'dart:math' as math;
 
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: ThirdAnimation(title: 'Flutter third  Home Page'),
     );
   }
 }
