@@ -3,7 +3,7 @@ import 'package:vector_math/vector_math_64.dart' as vector;
 import 'dart:math' as math;
 
 class SecondHomePage extends StatefulWidget {
-  SecondHomePage({Key keym, this.title}) : super(key: key);
+  SecondHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
 
