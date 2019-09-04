@@ -1,6 +1,6 @@
 import 'package:firebase_example_login/model/auth.dart';
 import 'package:firebase_example_login/widgets/general_widgets.dart';
-import 'package:firebase_example_login/widgets/login_widgets.dart';
+//import 'package:firebase_example_login/widgets/login_widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +17,7 @@ class _AuthPageState extends State<AuthPage> {
 
   String password;
   String email;
+  String name;
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +41,17 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
-  Widget _getPasswordField(String label, Function saveAction) {
+
+  String _defaultPasswordValidator(String value){
+    return value.isEmpty ? "Please enter a Password" : null;
+  }
+
+  Widget _getPasswordField(String label,  {Function(String) saveAction, Function(String) validatorFunction }) {
     return TextFormField(
       decoration: InputDecoration(labelText: label, filled: true),
       obscureText: true,
-      validator: (value) {
-        if (value.isEmpty) return 'Please enter a Password';
-        return null;
-      },
-      onSaved: saveAction,
+      validator: validatorFunction != null? validatorFunction : _defaultPasswordValidator,
+      onSaved: saveAction!=null? saveAction: (value){},
     );
   }
 
@@ -69,6 +72,12 @@ class _AuthPageState extends State<AuthPage> {
     return TextFormField(
       decoration: InputDecoration(labelText: label, filled: true),
       keyboardType: TextInputType.text,
+      validator: (value){
+        return value.isEmpty ? "Please enter a Name" : null;
+      },
+      onSaved: (value){
+        name = value;
+      },
     );
   }
 
@@ -81,12 +90,17 @@ class _AuthPageState extends State<AuthPage> {
         SpacedBox25(),
         _getNameField('Name'),
         SpacedBox25(),
-        _getPasswordField('Password', (value) {
+        _getPasswordField('Password', saveAction: (value) {
           password = value;
         }),
         SpacedBox25(),
-        _getPasswordField("Confirm Password", (value) {
+        _getPasswordField("Confirm Password", validatorFunction: (value) {
           //password = value;
+          if(value != password){
+            return "Passwords do not match";
+          }else {
+            return null;
+          }
         }),
         SpacedBox25(),
         _getSwitchButton(),
@@ -95,7 +109,7 @@ class _AuthPageState extends State<AuthPage> {
           color: Colors.blue,
           textColor: Colors.white,
           child: Text('Login'),
-          onPressed: _validateAndSubmit,
+          onPressed: _validateAndRegister,
         ),
       ],
     );
@@ -108,7 +122,7 @@ class _AuthPageState extends State<AuthPage> {
       children: <Widget>[
         _getEmailField(),
         SpacedBox25(),
-        _getPasswordField("Password", (value) {
+        _getPasswordField("Password", saveAction: (value) {
           password = value;
         }),
         SpacedBox25(),
@@ -146,9 +160,37 @@ class _AuthPageState extends State<AuthPage> {
     }
   }
 
-  void _validateAndSubmit(){
+  void _validateAndSubmit() async {
     if(_validateAndSave()){
+      /* var user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password)).user;
+      print('User: ${user.uid}'); */
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email,password: password).then(
+        (auth) {
+          print('User: ${auth.user.uid}');
+          if(!auth.user.isEmailVerified) auth.user.sendEmailVerification();
+        }
+      )
+      .catchError((e) => print(e));
+      
+    }
+  }
 
+  void _validateAndRegister() async {
+
+     _formKey.currentState.save();
+    if(_formKey.currentState.validate()){
+     
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email,password: password).then(
+        (auth) {
+          auth.user.updateProfile(UserUpdateInfo()
+          ..displayName = name)
+          .then((value) {
+            print('User is registered');
+            auth.user.sendEmailVerification();
+          });
+
+        }
+      );
     }
   }
 }
