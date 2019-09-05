@@ -26,6 +26,8 @@ class AuthBloc extends Bloc<AuthEvent,AuthStatus> {
       case AuthEvent.logout:
         yield AuthStatus.notSignedIn;
         break;
+    
+
     }
   }
 

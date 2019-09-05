@@ -40,8 +40,8 @@ class _RootPageState extends State<RootPage> {
               return HomePage(
                 auth: widget.auth,
               );
+              default: return null;
           }
-          return null;
         },
       ),
     );

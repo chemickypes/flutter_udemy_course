@@ -36,16 +36,16 @@ class _AuthPageState extends State<AuthPage> {
           title: Text("Login with Firebase"),
         ),
         body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(8),
-            child: Form(
-              key: _formKey,
-              child: authoMode == AuthMode.Login
-                  ? _getLoginLayout()
-                  : _getSignupLayout(),
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Form(
+                key: _formKey,
+                child: authoMode == AuthMode.Login
+                    ? _getLoginLayout()
+                    : _getSignupLayout(),
+              ),
             ),
           ),
-        ),
       ),
     );
   }
@@ -186,7 +186,6 @@ class _AuthPageState extends State<AuthPage> {
 
      _formKey.currentState.save();
     if(_formKey.currentState.validate()){
-     
      widget.auth.registerWithEmailAndPassword(email, password, name: name).then(
         (auth) {
          print('User is registered');
