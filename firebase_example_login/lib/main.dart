@@ -1,4 +1,5 @@
-import 'package:firebase_example_login/pages/auth_page.dart';
+import 'package:firebase_example_login/pages/rootpage.dart';
+import 'package:firebase_example_login/state/auth_objects.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -12,7 +13,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AuthPage(),
+      home: RootPage(
+        auth: Auth(),
+      ),
     );
   }
 }

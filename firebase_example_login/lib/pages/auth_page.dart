@@ -1,13 +1,15 @@
 import 'package:firebase_example_login/model/auth.dart';
+import 'package:firebase_example_login/state/auth_objects.dart';
 import 'package:firebase_example_login/widgets/general_widgets.dart';
 //import 'package:firebase_example_login/widgets/login_widgets.dart';
 import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-
 class AuthPage extends StatefulWidget {
-  AuthPage({Key key}) : super(key: key);
+  AuthPage({Key key, this.auth, this.onSignedIn}) : super(key: key);
 
+
+  final VoidCallback onSignedIn;
+  final BaseAuth auth;
   _AuthPageState createState() => _AuthPageState();
 }
 
@@ -160,14 +162,12 @@ class _AuthPageState extends State<AuthPage> {
     }
   }
 
-  void _validateAndSubmit() async {
+  void _validateAndSubmit() {
     if(_validateAndSave()){
-      /* var user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password)).user;
-      print('User: ${user.uid}'); */
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email,password: password).then(
-        (auth) {
-          print('User: ${auth.user.uid}');
-          if(!auth.user.isEmailVerified) auth.user.sendEmailVerification();
+      widget.auth.loginWithEmailAndPassword(email, password).then(
+        (authId) {
+          print('User: $authId');
+          widget.onSignedIn();
         }
       )
       .catchError((e) => print(e));
@@ -175,20 +175,15 @@ class _AuthPageState extends State<AuthPage> {
     }
   }
 
-  void _validateAndRegister() async {
+  void _validateAndRegister() {
 
      _formKey.currentState.save();
     if(_formKey.currentState.validate()){
      
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email,password: password).then(
+     widget.auth.registerWithEmailAndPassword(email, password, name: name).then(
         (auth) {
-          auth.user.updateProfile(UserUpdateInfo()
-          ..displayName = name)
-          .then((value) {
-            print('User is registered');
-            auth.user.sendEmailVerification();
-          });
-
+         print('User is registered');
+         widget.onSignedIn();
         }
       );
     }
