@@ -3,6 +3,8 @@ import 'package:bloc/bloc.dart';
 
 import 'dart:async';
 
+import 'package:firebase_example_login/model/user.dart';
+
 enum AuthStatus { notSignedIn, signedIn }
 
 enum AuthEvent { login, logout}
@@ -32,7 +34,7 @@ class AuthBloc extends Bloc<AuthEvent,AuthStatus> {
 abstract class BaseAuth {
   Future<String> loginWithEmailAndPassword(String email, String password);
   Future<String> registerWithEmailAndPassword(String email, String password, {String name});
-  Future<String> currentUser();
+  Future<User> currentUser();
   Future<void> signOut();
 }
 
@@ -59,9 +61,9 @@ class Auth extends BaseAuth {
       return f;
   }
 
-  Future<String> currentUser() async {
+  Future<User> currentUser() async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    return user.uid;
+    return User(user.uid,user.displayName,user.email);
   }
 
   Future<void> signOut() async {
