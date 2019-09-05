@@ -2,11 +2,12 @@ import 'package:firebase_example_login/model/user.dart';
 import 'package:bloc/bloc.dart';
 
 abstract class UserEvent{
+  UserEvent(this.user);
   User user;
 }
 
 class GetUserEvent extends UserEvent {
-
+  GetUserEvent(User user) : super(user);
 }
 
 

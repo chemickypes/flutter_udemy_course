@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   AuthBloc _authBlocProvider;
+  UserBloc _userBloc = UserBloc();
 
   void _signOut() async {
     try {
@@ -30,14 +31,17 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     widget.auth.currentUser().then((user){
-      BlocProvider.of(context).dispatch(GetUserEvent()..user = user);
+      _userBloc.dispatch(GetUserEvent(user));
     });
     
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     _authBlocProvider = BlocProvider.of<AuthBloc>(context);
+  
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
@@ -55,7 +59,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: BlocProvider<UserBloc>(
-        builder: (context) => UserBloc(),
+        builder: (context) => _userBloc,
         child: BlocBuilder<UserBloc, User>(
           builder: (context, user) {
             if (user.uid.isNotEmpty) {
@@ -63,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: UserWidget(
-                    user: User('', "Angelo", 'angelo@bemind.me'),
+                    user: user,
                   ),
                 ),
               );
