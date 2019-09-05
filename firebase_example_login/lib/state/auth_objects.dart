@@ -1,6 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bloc/bloc.dart';
 
 import 'dart:async';
+
+enum AuthStatus { notSignedIn, signedIn }
+
+enum AuthEvent { login, logout}
+
+class AuthBloc extends Bloc<AuthEvent,AuthStatus> {
+
+  @override
+  AuthStatus get initialState {
+    return AuthStatus.notSignedIn;
+  }
+
+  @override
+  Stream<AuthStatus> mapEventToState(AuthEvent event) async* {
+
+    switch (event) {
+      case AuthEvent.login:
+        yield AuthStatus.signedIn;
+        break;
+      case AuthEvent.logout:
+        yield AuthStatus.notSignedIn;
+        break;
+    }
+  }
+
+}
 
 abstract class BaseAuth {
   Future<String> loginWithEmailAndPassword(String email, String password);

@@ -3,6 +3,7 @@ import 'package:firebase_example_login/state/auth_objects.dart';
 import 'package:firebase_example_login/widgets/general_widgets.dart';
 //import 'package:firebase_example_login/widgets/login_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthPage extends StatefulWidget {
   AuthPage({Key key, this.auth, this.onSignedIn}) : super(key: key);
@@ -17,12 +18,18 @@ class _AuthPageState extends State<AuthPage> {
   AuthMode authoMode = AuthMode.Login;
   final _formKey = GlobalKey<FormState>();
 
+
   String password;
   String email;
   String name;
 
+  AuthBloc _authBlocProvider;
+
   @override
   Widget build(BuildContext context) {
+
+    _authBlocProvider = BlocProvider.of<AuthBloc>(context);
+
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -167,7 +174,7 @@ class _AuthPageState extends State<AuthPage> {
       widget.auth.loginWithEmailAndPassword(email, password).then(
         (authId) {
           print('User: $authId');
-          widget.onSignedIn();
+          _authBlocProvider.dispatch(AuthEvent.login);
         }
       )
       .catchError((e) => print(e));
@@ -183,7 +190,7 @@ class _AuthPageState extends State<AuthPage> {
      widget.auth.registerWithEmailAndPassword(email, password, name: name).then(
         (auth) {
          print('User is registered');
-         widget.onSignedIn();
+         _authBlocProvider.dispatch(AuthEvent.login);
         }
       );
     }
