@@ -26,7 +26,7 @@ class TextPage extends StatelessWidget {
               height: 10,
             ),
             Text(
-              'HOOLOOVOO CHIMICO',
+              'Laura TI AMO',
               style: TextStyle(
                   foreground: Paint()
                     ..color = Colors.black
