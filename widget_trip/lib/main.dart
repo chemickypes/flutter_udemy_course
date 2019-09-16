@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widget_trip/profile_images/profile_images.dart';
 import 'package:widget_trip/texts/text_page.dart';
 
 import 'login/login_page.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: ProfilePage(),
     );
   }
 }
