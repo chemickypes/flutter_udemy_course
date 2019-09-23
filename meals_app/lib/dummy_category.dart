@@ -16,5 +16,25 @@ const DUMMY_CATEGORIES = const [
   Category( 
     id: 'c3',
     title: 'Indian',
+  ),
+  Category( 
+    id: 'c4',
+    title: 'Hanburgers',
+    color: Colors.indigo
+  ),
+  Category( 
+    id: 'c5',
+    title: 'Pasta\'s',
+    color: Colors.amber
+  ),
+  Category( 
+    id: 'c6',
+    title: 'Salad',
+    color: Colors.blue
+  ),
+  Category( 
+    id: 'c7',
+    title: 'Vegan',
+    color: Colors.green
   )
 ];
